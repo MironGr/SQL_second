@@ -13,14 +13,13 @@ def query_string_5():
     data = {}
 
     query_string = '''
-        SELECT c.FirstName, c.LastName, c.Phone, i.Total, count(i.CustomerId)  
+        SELECT c.FirstName, c.LastName, c.Phone, c.City, sum(i.Total)  
         FROM Customer AS c
-        INNER JOIN Invoice AS i ON c.CustomerId = i.CustomerId
+        JOIN Invoice AS i ON c.CustomerId = i.CustomerId
         WHERE i.Total > 0 
-        GROUP BY c.City
-        HAVING count(i.CustomerId) > 1
-        ORDER BY count(i.CustomerId) DESC
-     '''
+        GROUP BY c.FirstName, c.LastName
+        ORDER BY c.City
+      '''
 
     try:
         con = lite.connect('vers_1.sqlite')
